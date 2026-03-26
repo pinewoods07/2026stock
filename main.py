@@ -142,15 +142,86 @@ html, body, [class*="css"] {
 .styled-table td:first-child { text-align: left; font-family: 'Noto Sans KR', sans-serif; font-size: 0.88rem; }
 .styled-table tr:hover td { background: rgba(59,130,246,0.05); }
 
-/* 사이드바 */
+/* 사이드바 전체 */
 section[data-testid="stSidebar"] {
-    background: var(--surface);
-    border-right: 1px solid var(--border);
+    background: #0d1424 !important;
+    border-right: 1px solid #1f3056 !important;
 }
-section[data-testid="stSidebar"] .stSlider > div { color: var(--text); }
+
+/* 사이드바 모든 텍스트 */
+section[data-testid="stSidebar"] * {
+    color: #f0ede8 !important;
+}
+
+/* 사이드바 h3 */
+section[data-testid="stSidebar"] h3 {
+    color: #ffffff !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+/* 사이드바 마크다운 텍스트 */
+section[data-testid="stSidebar"] p,
+section[data-testid="stSidebar"] span,
+section[data-testid="stSidebar"] label,
+section[data-testid="stSidebar"] div {
+    color: #f0ede8 !important;
+}
+
+/* 사이드바 hr */
+section[data-testid="stSidebar"] hr {
+    border-color: #1f3056 !important;
+    margin: 1rem 0 !important;
+}
+
+/* selectbox / multiselect 박스 */
+section[data-testid="stSidebar"] [data-baseweb="select"] {
+    background-color: #172136 !important;
+    border: 1px solid #2a4070 !important;
+    border-radius: 8px !important;
+}
+section[data-testid="stSidebar"] [data-baseweb="select"] * {
+    color: #f0ede8 !important;
+    background-color: transparent !important;
+}
+
+/* 드롭다운 메뉴 */
+[data-baseweb="popover"] {
+    background-color: #172136 !important;
+    border: 1px solid #2a4070 !important;
+}
+[data-baseweb="popover"] * { color: #f0ede8 !important; }
+[data-baseweb="menu"] { background-color: #172136 !important; }
+[data-baseweb="menu"] li:hover { background-color: #1e3a6e !important; }
+
+/* 멀티셀렉트 태그 */
+[data-baseweb="tag"] {
+    background-color: rgba(59,130,246,0.25) !important;
+    border: 1px solid rgba(59,130,246,0.5) !important;
+    border-radius: 6px !important;
+}
+[data-baseweb="tag"] span { color: #dbeafe !important; }
+[data-baseweb="tag"] button svg { fill: #93c5fd !important; }
+
+/* 체크박스 */
+section[data-testid="stSidebar"] [data-testid="stCheckbox"] span {
+    color: #f0ede8 !important;
+}
+
+/* 메인 영역 모든 일반 텍스트 */
+.stMarkdown, .stMarkdown p, .stMarkdown span {
+    color: #f0ede8;
+}
+
+/* Streamlit 위젯 라벨 전역 */
+[data-testid="stWidgetLabel"] p,
+[data-testid="stWidgetLabel"] span {
+    color: #f0ede8 !important;
+}
 
 /* Streamlit 기본 오버라이드 */
-.stMultiSelect [data-baseweb="tag"] { background-color: rgba(59,130,246,0.3) !important; }
 div[data-testid="stMetric"] { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; }
 
 /* 구분선 */
@@ -256,16 +327,26 @@ def fmt_num(v, decimals=2):
 
 # ── 사이드바 ──────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("### ⚙️ 설정")
-    st.markdown("---")
+    st.markdown("""
+<div style="padding:1rem 0 0.5rem;">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:1.05rem;font-weight:700;color:#ffffff;letter-spacing:0.04em;">
+    ⚙️ 설정
+  </div>
+</div>
+<hr style="border-color:#1f3056;margin:0.5rem 0 1rem;">
+""", unsafe_allow_html=True)
 
     period_label = st.selectbox("📅 조회 기간", list(PERIOD_MAP.keys()), index=3)
     days = PERIOD_MAP[period_label]
     end_date = datetime.today()
     start_date = end_date - timedelta(days=days)
 
-    st.markdown("---")
-    st.markdown("**🇰🇷 한국 종목** (최대 6개)")
+    st.markdown('<hr style="border-color:#1f3056;margin:1rem 0;">', unsafe_allow_html=True)
+
+    st.markdown("""
+<div style="color:#f0ede8;font-size:0.88rem;font-weight:600;margin-bottom:0.5rem;">
+  🇰🇷 한국 종목 <span style="color:#b0bec5;font-weight:400;font-size:0.78rem;">(최대 6개)</span>
+</div>""", unsafe_allow_html=True)
     kr_selected = st.multiselect(
         "한국 종목 선택",
         list(KR_STOCKS.keys()),
@@ -274,7 +355,10 @@ with st.sidebar:
         label_visibility="collapsed",
     )
 
-    st.markdown("**🇺🇸 미국 종목** (최대 6개)")
+    st.markdown("""
+<div style="color:#f0ede8;font-size:0.88rem;font-weight:600;margin:0.8rem 0 0.5rem;">
+  🇺🇸 미국 종목 <span style="color:#b0bec5;font-weight:400;font-size:0.78rem;">(최대 6개)</span>
+</div>""", unsafe_allow_html=True)
     us_selected = st.multiselect(
         "미국 종목 선택",
         list(US_STOCKS.keys()),
@@ -283,8 +367,8 @@ with st.sidebar:
         label_visibility="collapsed",
     )
 
-    st.markdown("---")
-    show_index = st.checkbox("지수 비교 포함", value=True)
+    st.markdown('<hr style="border-color:#1f3056;margin:1rem 0;">', unsafe_allow_html=True)
+    show_index = st.checkbox("📊 지수 비교 포함", value=True)
     if show_index:
         idx_selected = st.multiselect(
             "비교 지수",
@@ -294,7 +378,7 @@ with st.sidebar:
     else:
         idx_selected = []
 
-    normalize = st.checkbox("정규화 차트 (100 기준)", value=True)
+    normalize = st.checkbox("📈 정규화 차트 (100 기준)", value=True)
 
 
 # ── 데이터 로드 ───────────────────────────────────────────────────────────────
