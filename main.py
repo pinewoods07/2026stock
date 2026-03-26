@@ -28,8 +28,8 @@ st.markdown("""
     --accent-green: #22c55e;
     --accent-red: #ef4444;
     --accent-yellow: #eab308;
-    --text: #e2e8f0;
-    --text-muted: #64748b;
+    --text: #f5f0e8;
+    --text-muted: #b0bec5;
     --kr-color: #f97316;
     --us-color: #818cf8;
 }
@@ -72,7 +72,7 @@ html, body, [class*="css"] {
     letter-spacing: -0.02em;
 }
 .hero-sub {
-    color: var(--text-muted);
+    color: #c9d1d9;
     font-size: 0.95rem;
     margin: 0;
 }
@@ -100,9 +100,9 @@ html, body, [class*="css"] {
     transition: border-color 0.2s;
 }
 .metric-card:hover { border-color: var(--accent-blue); }
-.metric-card .label { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+.metric-card .label { font-size: 0.72rem; color: #b0bec5; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
 .metric-card .value { font-family: 'IBM Plex Mono', monospace; font-size: 1.5rem; font-weight: 600; }
-.metric-card .sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.2rem; }
+.metric-card .sub { font-size: 0.78rem; color: #c9d1d9; margin-top: 0.2rem; }
 .pos { color: var(--accent-green); }
 .neg { color: var(--accent-red); }
 .neu { color: var(--text); }
@@ -112,7 +112,7 @@ html, body, [class*="css"] {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.7rem;
     letter-spacing: 0.15em;
-    color: var(--text-muted);
+    color: #c9d1d9;
     text-transform: uppercase;
     border-left: 3px solid var(--accent-blue);
     padding-left: 0.8rem;
@@ -123,7 +123,7 @@ html, body, [class*="css"] {
 .styled-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
 .styled-table th {
     background: var(--surface2);
-    color: var(--text-muted);
+    color: #b0bec5;
     font-size: 0.7rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -424,12 +424,12 @@ for name in available:
 fig.update_layout(
     paper_bgcolor="rgba(0,0,0,0)",
     plot_bgcolor="rgba(17,24,39,0.8)",
-    font=dict(family="IBM Plex Mono", color="#94a3b8", size=11),
+    font=dict(family="IBM Plex Mono", color="#dce3ea", size=11),
     legend=dict(
         bgcolor="rgba(17,24,39,0.9)",
         bordercolor="#1f2f4a",
         borderwidth=1,
-        font=dict(size=11),
+        font=dict(size=11, color="#dce3ea"),
         orientation="h",
         yanchor="bottom", y=1.01,
         xanchor="left", x=0,
@@ -437,12 +437,12 @@ fig.update_layout(
     xaxis=dict(
         showgrid=True, gridcolor="rgba(31,47,74,0.5)",
         showline=True, linecolor="#1f2f4a",
-        tickfont=dict(size=10),
+        tickfont=dict(size=10, color="#dce3ea"),
     ),
     yaxis=dict(
         showgrid=True, gridcolor="rgba(31,47,74,0.5)",
         showline=True, linecolor="#1f2f4a",
-        tickfont=dict(size=10),
+        tickfont=dict(size=10, color="#dce3ea"),
         ticksuffix="%" if normalize else "",
     ),
     hovermode="x unified",
@@ -479,12 +479,15 @@ if metrics_all:
     fig_bar.update_layout(
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(17,24,39,0.8)",
-        font=dict(family="IBM Plex Mono", color="#94a3b8", size=11),
+        font=dict(family="IBM Plex Mono", color="#dce3ea", size=11),
         xaxis=dict(
             showgrid=True, gridcolor="rgba(31,47,74,0.5)",
             ticksuffix="%", showline=True, linecolor="#1f2f4a",
+            tickfont=dict(color="#dce3ea"),
         ),
-        yaxis=dict(showgrid=False, showline=True, linecolor="#1f2f4a"),
+        yaxis=dict(showgrid=False, showline=True, linecolor="#1f2f4a",
+            tickfont=dict(color="#dce3ea"),
+        ),
         height=max(200, len(bar_data) * 38 + 60),
         margin=dict(l=0, r=0, t=10, b=0),
     )
@@ -518,7 +521,7 @@ for name in sorted_names:
     sharpe_color = "pos" if m["샤프지수"] > 1 else ("neg" if m["샤프지수"] < 0 else "neu")
     rows_html += f"""
 <tr>
-  <td>{region_badge} <b>{name}</b><br><span style="color:#475569;font-size:0.72rem;">{ticker_str}</span></td>
+  <td>{region_badge} <b>{name}</b><br><span style="color:#8899aa;font-size:0.72rem;">{ticker_str}</span></td>
   <td>{fmt_pct(m['수익률'])}</td>
   <td>{fmt_num(m['연변동성'])}%</td>
   <td><span class="{sharpe_color}">{fmt_num(m['샤프지수'])}</span></td>
@@ -568,16 +571,16 @@ if len(available) >= 2:
         showscale=True,
         colorbar=dict(
             thickness=12,
-            tickfont=dict(color="#94a3b8", size=10, family="IBM Plex Mono"),
+            tickfont=dict(color="#dce3ea", size=10, family="IBM Plex Mono"),
             outlinewidth=0,
         ),
     ))
     fig_heat.update_layout(
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(17,24,39,0.8)",
-        font=dict(family="Noto Sans KR", color="#94a3b8", size=11),
-        xaxis=dict(tickangle=-30, showgrid=False, showline=False),
-        yaxis=dict(showgrid=False, showline=False),
+        font=dict(family="Noto Sans KR", color="#dce3ea", size=11),
+        xaxis=dict(tickangle=-30, showgrid=False, showline=False, tickfont=dict(color="#dce3ea")),
+        yaxis=dict(showgrid=False, showline=False, tickfont=dict(color="#dce3ea")),
         height=max(300, len(available) * 50 + 80),
         margin=dict(l=0, r=0, t=10, b=0),
     )
@@ -587,7 +590,7 @@ if len(available) >= 2:
 # ── 푸터 ─────────────────────────────────────────────────────────────────────
 st.markdown("""
 <hr>
-<div style="text-align:center;color:#334155;font-size:0.75rem;font-family:'IBM Plex Mono',monospace;">
+<div style="text-align:center;color:#8899aa;font-size:0.75rem;font-family:'IBM Plex Mono',monospace;">
   데이터 제공: Yahoo Finance (yfinance) &nbsp;·&nbsp; 본 앱은 투자 권유가 아닙니다 &nbsp;·&nbsp; 투자 결정은 본인 책임입니다
 </div>
 """, unsafe_allow_html=True)
